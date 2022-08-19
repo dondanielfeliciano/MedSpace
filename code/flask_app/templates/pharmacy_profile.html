@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
+        <h1 class="navbar-brand m-3">Welcome to Medspace, {{this_pharmacy[0]['name']}} {{this_pharmacy[0]['nr']}}!!!</h1>
+        <div class="my-2 my-lg-0 m-3">
+            <a href="">.......</a>
+            <a class="p-4" href="/logout">Log Out</a>
+        </div>
+    </nav>
+    <div class="p-5 m-5">
+        <h3>Patients List:</h3>
+        <br>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Date of Birth</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <!-- <tbody>
+                {% for one_car in all_cars: %}
+                    <tr>
+                        <td>{{one_car.model}}</td>
+                        <td>{{one_car.year}}</td>
+                        <td>{{one_car.seller_first_name}} {{one_car.seller_last_name}}</td>
+                        {% if one_car.buyer_id != None %}
+                        <td>SOLD</td>
+                        {% elif one_car.seller_id == session['user_id'] %}
+                        <td><a href="/edit/{{one_car.id}}">edit | </a><a href="/delete/{{one_car.id}}">delete</a></td>
+                        {% else %}
+                        <td><a href="/cars/{{one_car.id}}">view</a></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %} -->
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex justify-content-end"><a href="/new" class="pr-5">....</a></div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Pharmacy details</title>
+</head>
+<body>
+    <div class="pr-5 pl-5 d-flex justify-content-end">
+        <a class="p-5" href="/patient_profile/{{session['patient_id']}}">Dashboard</a>
+        <a class="p-5" href="/logout">logout</a>
+    </div>
+    <div class="card m-5 w-75">
+        <div class="card-body">
+            <h3>{{one_pharmacy[0].name}}</h3>
+            <p>Address: {{one_pharmacy[0].address}}</p>
+            <p>Store number: {{one_pharmacy[0].nr}}</p>
+            <br>
+            <form class="d-flex justify-content-end" action="/patient_profile/{{session['patient_id']}}/{{one_pharmacy[0]['id']}}" method="post">
+                <button type="submit" class="btn btn-primary">Add Pharmacy</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
