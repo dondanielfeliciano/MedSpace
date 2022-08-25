@@ -25,6 +25,7 @@
                     <th scope="col">Directions</th>
                     <th scope="col">Days Left</th>
                     <th scope="col">Refills Left</th>                    
+                    <th scope="col">Request-Refills</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -36,13 +37,20 @@
                             <td>{{one_med.directions}}</td>
                             <td>{{one_med.days_left}}</td>
                             <td>{{one_med.refills}}</td>
-                            <td></td>
+                            <td>
+                                    {% if one_med.refill_request != 1 %}
+                                        <a href="/request_refill/{{one_patient[0]['id']}}/{{one_pharmacy[0]['id']}}/{{one_med['id']}}">Request-Refill </a>
+                                    {% else %}
+                                        <p>refill request sent to pharmacy</p>
+                                    {% endif %}
+                            </td>
+                            <td><a href="/delete_meds/{{one_patient[0]['id']}}/{{one_pharmacy[0]['id']}}/{{one_med['id']}}"> Delete</a></td>
                         </tr>
                     {% endfor %}
                 {% endif %}
             </tbody>
         </table>
     </div>
-    <div class="d-flex justify-content-end"><a href="/new_med/{{patient_id}}/{{pharmacy_id}}" class="pr-5">Add a Prescription</a></div>
+    <div class="d-flex justify-content-end"><a href="/new_med/{{one_patient[0]['id']}}/{{one_pharmacy[0]['id']}}" class="pr-5">Add a Prescription</a></div>
 </body>
 </html>

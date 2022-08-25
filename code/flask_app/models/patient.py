@@ -9,7 +9,6 @@ from flask_bcrypt import Bcrypt
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 bcrypt = Bcrypt(app)
 
-
 db='medspace'
 
 
@@ -24,7 +23,6 @@ class Patient:
         self.bdate = data['bdate']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
-        # self.bought_cars = []
 
     @classmethod
     def registration(cls,data):
@@ -46,28 +44,10 @@ class Patient:
         query = 'insert into patients_pharmacies (patient_id, pharmacy_id) values (%(patient_id)s, %(pharmacy_id)s)'
         return connectToMySQL(db).query_db(query, data)
 
-    # @classmethod
-    # def get_bought_cars(cls,data):
-    #     query = 'select * from users as buyers left join cars on buyers.id = cars.buyer_id left join users as sellers on sellers.id = cars.seller_id where buyers.id = %(id)s'
-    #     results = connectToMySQL(db).query_db(query, data)
-    #     buyer = cls(results[0])
-    #     for row in results:
-    #         car_data = {
-    #             "id" : row['cars.id'],
-    #             "make": row['make'],
-    #             "model": row['model'],
-    #             "year": row['year'],
-    #             "price" : row['price'],
-    #             "description" : row['description'],
-    #             "seller_id" : row['sellers.id'],
-    #             "buyer_id" : session['user_id'],
-    #             "created_at": row['cars.created_at'],
-    #             "updated_at": row['cars.updated_at'],
-    #             "first_name" : row['sellers.first_name'],
-    #             "last_name" : row['sellers.last_name']
-    #         }
-    #         buyer.bought_cars.append(car.Car(car_data))
-    #     return buyer
+    @classmethod
+    def removePharmacy(cls,data):
+        query = 'DELETE FROM patients_pharmacies WHERE patient_id = %(patient_id)s and pharmacy_id = %(pharmacy_id)s'
+        return connectToMySQL(db).query_db(query,data)
 
     @staticmethod
     def validate_inputs(patient):
@@ -94,7 +74,13 @@ class Patient:
             flash('Please chosse a valid address', "patient_registration")
             is_valid = False
         if patient['bdate'][:4] > datetime.datetime.now().strftime("%Y"):
-            flash('Please enter a valid date of birth', 'patient_registration')
+            flash('Please enter a valid date of birth (year)', 'patient_registration')
+            is_valid = False
+        if patient['bdate'][5:7] > datetime.datetime.now().strftime("%m"):
+            flash('Please enter a valid date of birth (month)', 'patient_registration')
+            is_valid = False
+        if patient['bdate'][8:10] > datetime.datetime.now().strftime("%d"):
+            flash('Please enter a valid date of birth (day)','patient_registration')
             is_valid = False
         # continue verfication if the date of birth is in the past
         return is_valid

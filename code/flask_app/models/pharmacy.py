@@ -59,23 +59,11 @@ class Pharmacy:
         query = 'select * from patients_pharmacies left join pharmacies on pharmacy_id = pharmacies.id where patient_id = %(id)s'
         return connectToMySQL(db).query_db(query, data)
 
-
-    # @classmethod
-    # def get_car_by_id(cls,data):
-    #     query = "select * from cars left join users on cars.seller_id = users.id where cars.id = %(id)s"
-    #     return connectToMySQL(db).query_db(query,data)
-
-    # @classmethod
-    # def update(cls,data, id):
-    #     query = f'update cars set price= %(price)s, description= %(description)s, model= %(model)s, make = %(make)s , year = %(year)s where id ={id}'
-    #     result = connectToMySQL(db).query_db(query, data)
-    #     return result
-
-    # @classmethod
-    # def purchase_car(cls,data,id):
-    #     query = f'update cars set buyer_id = %(buyer_id)s where id = {id}'
-    #     result = connectToMySQL(db).query_db(query,data)
-    #     return result
+    @classmethod
+    def refillsRequested(cls, data):
+        # query = 'SELECT * FROM pharmacies JOIN medications ON medications.refill_request = 1 JOIN patients_pharmacies ON medications.patient_id = patients_pharmacies.patient_id JOIN patients ON patients_pharmacies.patient_id = patients.id WHERE pharmacies.id = %(id)s AND medications.pharmacy_id = %(id)s'
+        query = "select * from pharmacies join medications on pharmacies.id = medications.pharmacy_id join patients on medications.patient_id = patients.id where pharmacies.id = %(pharmacy_id)s and refill_request = 1"
+        return connectToMySQL(db).query_db(query, data)
 
     @staticmethod
     def validate_inputs(data):

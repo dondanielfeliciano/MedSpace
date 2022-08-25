@@ -4,11 +4,46 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Add Patient Prescription</title>
 </head>
 <body>
-    <div class="form">
-        <h1>Hello</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
+        <h1 class="navbar-brand m-3">Welcome to Medspace, {{one_patient[0]['first_name']}}!!!</h1>
+        <div class="my-2 my-lg-0 m-3">
+            <a class="p-5" href="/patient_profile/{{session['patient_id']}}">Dashboard</a>
+            <a class="p-4" href="/logout">Log Out</a>
+        </div>
+    </nav>
+    <div class="d-flex flex-row">
+        <form class="m-5 p-2 w-50" action="/add_prescription/{{one_patient[0]['id']}}/{{one_pharmacy[0]['id']}}" method="post">
+            {% with messages = get_flashed_messages(category_filter = ['med']) %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p>{{message}}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <h1>Prescription:</h1>
+            <br>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" name="name">
+            </div>
+            <div class="form-group">
+                <label for="directions">Directions</label>
+                <input type="text" class="form-control" name="directions">
+            </div>
+            <div class="form-group">
+                <label for="days_left">Days Left</label>
+                <input type="number" class="form-control" name="days_left">
+            </div>
+            <div class="form-group">
+                <label for="refills">Refills</label>
+                <input type="number" class="form-control" name="refills">
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
     </div>
 </body>
 </html>

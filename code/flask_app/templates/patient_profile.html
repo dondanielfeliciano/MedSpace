@@ -9,48 +9,49 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
-        <h1 class="navbar-brand m-3">Welcome to Medspace, {{one_patient[0]['first_name']}}!!!</h1>
+        <h1 class="navbar-brand m-3">Welcome to Medspace, {{one_patient[0]['first_name']}}!</h1>
         <div class="my-2 my-lg-0 m-3">
-            <a href="">.........</a>
+            <a class="p-4" href="/patient_profile/{{patient_id}}/pharmacies">My Pharmacies</a>
             <a class="p-4" href="/logout">Log Out</a>
         </div>
     </nav>
-    <div>
-        {% if pharmacies_added %}
-            <h3>Your pharmacies:</h3>
-            {% for pharmacy in pharmacies_added %}
-                <a href="/patient_profile/{{patient_id}}/{{pharmacy.id}}">{{pharmacy.name}} at {{pharmacy.address}}</a>
-                <br>
-            {% endfor %}
-        {% endif %}
-    </div>
-    {% if all_unselected_pharmacies %}
-        <div class="p-5 m-5 w-75">
-            <h3>Choose your preferred pharmacies:</h3>
-            <p>after choosing a pharmacy you will be able to add all your prescriptions at that location</p>
+    {% if all_medications %}
+        <div class="p-5 m-5">
+            <h3>My presciptions:</h3>
             <br>
             <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Directions</th>
+                        <th scope="col">Days Left</th>
+                        <th scope="col">Refills Left</th>                    
+                        <th scope="col">Pharmacy</th>
+                        <th scope="col">Request-Refills</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
                 <tbody>
-                    {% for one_pharmacy in all_unselected_pharmacies %}
+                    {% for one_med in all_medications %}
                         <tr>
-                            <td><a href="/pharmacy/{{one_pharmacy['id']}}">{{one_pharmacy['name']}} located at: {{one_pharmacy['address']}}</a></td>
-                            
-                            <td><a href="/patient_profile/{{patient_id}}/{{one_pharmacy['id']}}">Add pharmacy</a></td>
+                            <td>{{one_med.name}}</td>
+                            <td>{{one_med.directions}}</td>
+                            <td>{{one_med.days_left}}</td>
+                            <td>{{one_med.refills}}</td>
+                            <td><a href="/patient_profile/{{patient_id}}/{{one_med['pharmacies.id']}}">{{one_med['pharmacies.name']}} at {{one_med['address']}}</a></td>
+                            <td>
+                                {% if one_med.refill_request != 1 %}
+                                    <a href="/request_refill/{{patient_id}}/{{one_med['pharmacies.id']}}/{{one_med['id']}}">Request-Refill </a>
+                                {% else %}
+                                    <p>refill request sent to pharmacy</p>
+                                {% endif %}
+                            </td>
+                            <td><a href="/delete_meds/{{patient_id}}/{{one_med['pharmacies.id']}}/{{one_med['id']}}"> Delete</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     {% endif %}
-
-    <!-- <div class="p-5 m-5 w-50">
-        <ul class="list-group">
-            <li class="list-group-item active">Choose your preferred pharmacies:</li>
-            {% for one_pharmacy in all_pharmacies %}
-                <a href="/pharmacy/{{one_pharmacy['id']}}"><li class="list-group-item">{{one_pharmacy['name']}} located at: {{one_pharmacy['address']}}</li></a>
-                <a href="/patient_profile/{{patient_id}}/{{one_pharmacy['id']}}">Add pharmacy</a>
-            {% endfor %}
-        </ul>
-    </div> -->
 </body>
 </html>

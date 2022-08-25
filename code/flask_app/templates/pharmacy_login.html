@@ -10,13 +10,6 @@
 <body>
     <div class="d-flex flex-row">
         <div class="p-2 m-5 w-50">
-            <!-- {% with messages = get_flashed_messages(category_filter=['delete_msg']) %}
-                {% if messages %}
-                    {% for message in messages %}
-                        <p>{{message}}</p>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %} -->
             {% with messages=get_flashed_messages(category_filter=['pharmacy_login']) %}
                 {% if messages %}
                     {% for message in messages %}

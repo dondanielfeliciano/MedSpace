@@ -18,7 +18,7 @@
             <p>Address: {{one_pharmacy[0].address}}</p>
             <p>Store number: {{one_pharmacy[0].nr}}</p>
             <br>
-            <form class="d-flex justify-content-end" action="/patient_profile/{{session['patient_id']}}/{{one_pharmacy[0]['id']}}" method="post">
+            <form class="d-flex justify-content-end" action="/patient_profile/{{session['patient_id']}}/add/{{one_pharmacy[0].id}}" method="post">
                 <button type="submit" class="btn btn-primary">Add Pharmacy</button>
             </form>
         </div>
