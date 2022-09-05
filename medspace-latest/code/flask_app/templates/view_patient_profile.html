@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
+        <h1 class="navbar-brand m-3">Welcome to Medspace, {{this_pharmacy[0]['name']}} {{this_pharmacy[0]['nr']}}!!!</h1>
+        <div class="my-2 my-lg-0 m-3">
+            <a class="p-4" href="/pharmacy_profile/{{this_pharmacy[0]['id']}}">Dashboard</a>
+            <a class="p-4" href="/logout">Log Out</a>
+        </div>
+    </nav>
+    <div class="card m-5 w-75">
+        <div class="card-body">
+            <h3>{{one_patient[0].first_name}} {{one_patient[0].last_name}}</h3>
+            <p>Address: {{one_patient[0].address}}</p>
+            <p>Email: {{one_patient[0].email}}</p>
+            <p>Date of Birht: {{one_patient[0].bdate}}</p>
+        </div>
+    </div>
+</body>
+</html>

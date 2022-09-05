@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Add Patient Prescription</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between ">
+        <div>
+            <h1 class="navbar-brand m-3"><a class="text-light" href="/patient_profile/{{one_patient[0]['id']}}">MedSpace</a></h1>
+        </div>
+        <div class="my-2 my-lg-0 m-1">
+                <a class="p-4 text-light" href="/patient_profile/{{one_patient[0]['id']}}/pharmacies">My Pharmacies</a>
+                <a class="p-4 text-light" href="/logout">Log Out</a>
+            </div>
+        </div>
+    </nav>
+    <div class="d-flex flex-row">
+        <form class="m-5 p-2 w-50" action="/update_prescription/{{one_patient[0]['id']}}/{{one_med[0]['id']}}" method="post">
+            {% with messages = get_flashed_messages(category_filter = ['med']) %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p>{{message}}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <h1>Prescription:</h1>
+            <br>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" name="name" value="{{one_med[0]['name']}}">
+            </div>
+            <div class="form-group">
+                <label for="directions">Directions</label>
+                <input type="text" class="form-control" name="directions" value="{{one_med[0]['directions']}}">
+            </div>
+            <div class="form-group">
+                <label for="pharmacy">Pharmacy</label>
+                <br>
+                <select name="pharmacy" class="form-control">
+                    <option value="{{one_pharmacy[0].id}}" selected disabled hidden>
+                        {{one_pharmacy[0].name}} located at {{one_pharmacy[0].address}}
+                    </option>
+                    {% for pharmacy in all_pharmacies %}
+                        {% if pharmacy.id != one_pharmacy[0].id %}
+                            <option value="{{pharmacy.id}}">{{pharmacy.name}} located at {{pharmacy.address}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="days_left">Days Left</label>
+                <input type="number" class="form-control" name="days_left" value="{{one_med[0]['days_left']}}">
+            </div>
+            <div class="form-group">
+                <label for="refills">Refills</label>
+                <input type="number" class="form-control" name="refills" value="{{one_med[0]['refills']}}">
+            </div>
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+    </div>
+</body>
+</html>

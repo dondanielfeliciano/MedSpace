@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between ">
+        <div>
+            <h1 class="navbar-brand m-3"><a class="text-light" href="/patient_profile/{{one_patient[0]['id']}}">MedSpace</a></h1>
+        </div>
+        <div class="my-2 my-lg-0 m-1">
+            <div class="d-flex justify-content-around">
+                <a class="p-4 text-light" href="/new_med/{{one_patient[0]['id']}}" class="pr-5">Add a Prescription</a>
+                <a class="p-4 text-light" href="/patient_profile/{{patient_id}}/pharmacies">My Pharmacies</a>
+                <a class="p-4 text-light" href="/logout">Log Out</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container p-2 text-center">
+        <h2><small>Welcome to MedSpace, {{one_patient[0]['first_name']}}!</small></h2>
+    </div>
+    <div class="container mt-4">
+        {% if all_medications %}
+            <div class="row">
+                <div class="col-12 lg-8">
+                    <h3>My presciptions:</h3>
+                    <br>
+                        {% for one_med in all_medications %}
+                        <div class="container card p-3 mb-5 shadow">
+                            <div class="row">
+                                <div class="col-2">
+                                    <img src="/static/img/Capture.png" alt="rx image" class="align-middle" width="75">
+                                </div>
+                                <div class="col-6">
+                                    <h5 class="">{{one_med.name}}</h5>
+                                    <ul>
+                                        <li>{{one_med.directions}}</li>
+                                        <li>{{one_med.refills}} Refills left</li>
+                                        <li>{{one_med.days_left}} Days of medication left</li>
+                                    </ul>
+                                    <h4><small><a href="/patient_profile/{{patient_id}}/{{one_med['pharmacies.id']}}">{{one_med['pharmacies.name']}} at {{one_med['address']}}</a></small></h4>
+                                </div>
+                                <div class="col-4">
+                                    {% if one_med.refill_request == 1 %}
+                                        <p>Refill request sent to pharmacy</p>
+                                    {% elif one_med.refill_request == 2 %}
+                                        <p>Pharmacy accepted your refill request</p>
+                                    {% elif one_med.refill_request == 3 %}
+                                        <p>Pharmacy declined your refill request</p>
+                                    {% elif one_med.refills == 0 %}
+                                        <p>Contact prescriber to authorize refills</p>
+                                    {% elif one_med.refill_request == 0 %}
+                                        <div class="mb-2">
+                                            <a href="/request_refill/all_meds_view/{{patient_id}}/{{one_med['pharmacies.id']}}/{{one_med['id']}}"><button class="btn btn-primary">Request Refill</button></a>
+                                        </div>
+                                    {% endif %}
+                                        <div class="mb-2">
+                                                <a href="/goto_edit_meds/all_meds_view/{{patient_id}}/{{one_med['id']}}"><button type="submit" class="btn btn-secondary">Edit Prescription</button></a>
+                                        </div>
+                                        <div class="mb-2">
+                                                <a href="/delete_meds/all_meds_view/{{patient_id}}/{{one_med['id']}}"><button type="submit" class="btn btn-warning">Delete Prescription</button></a>
+                                        </div>
+                                        {% if one_med.refill_request != 0 and one_med.refill_request != 2 and one_med.refills != 0 %}
+                                        <div>
+                                            <form class="" action="/next_refill/{{patient_id}}/{{one_med['id']}}" method="post">
+                                                <button type="submit" class="btn btn-primary">Take back refill request</button>
+                                            </form>
+                                        </div>
+                                        {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    
+    </div>
+</body>
+</html>
